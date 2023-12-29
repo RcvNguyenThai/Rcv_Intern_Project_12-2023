@@ -3,6 +3,23 @@
 @php
 
     $successName = ['active_name'];
+    $productHightlight = ['status_name'];
+
+    if (!function_exists('getStatusClass')) {
+        function getStatusClass($status)
+        {
+            switch ($status) {
+                case 'Hoạt động':
+                    return 'text-success';
+                case 'Đang bán':
+                    return 'text-success';
+                case 'Dừng bán':
+                    return 'text-warning';
+                default:
+                    return 'text-danger';
+            }
+        }
+    }
 @endphp
 
 <table class="table">
@@ -22,41 +39,27 @@
                     @if ($loop->last)
                         <td>
                             <div class="d-flex justify-content-start " style="gap: 0.5rem">
-                                <a href="{{ route('admin.user.edit', ['id' => $item['id']]) }}">
+                                <a href="{{ route('admin.product.edit', ['id' => $item['id']]) }}">
                                     <x-forms.button class="m-0 p-0 text-info" type="button" icon="fas fa-edit ">
+                                    </x-forms.button>
                                 </a>
 
-                                </x-forms.button>
+
+
                                 <x-forms.button class="m-0 p-0 text-danger"
-                                    modalID="{{ '#deleteUserModal' . $item['id'] }}" type="button"
+                                    modalID="{{ '#deleteProductModal' . '-' . $item['id'] }}" type="button"
                                     icon="fas fa-trash-alt ">
                                 </x-forms.button>
-                                <x-forms.button class="m-0 p-0 " type="button" icon="fas fa-user-times "
-                                    modalID="{{ '#changeActiveModal' . $item['id'] }}">
-                                </x-forms.button>
 
-
-
-                                <x-modal action="{{ route('admin.user.change.active', ['id' => $item['id']]) }}"
-                                    method="put" id="{{ 'changeActiveModal' . $item['id'] }}"
-                                    title="Bạn có muốn thay đổi trạng thái ?">
+                                <x-modal isAjax action="{{ route('admin.product.delete.ajax', ['id' => $item['id']]) }}"
+                                    method="DELETE" id="{{ 'deleteProductModal' . '-' . $item['id'] }}"
+                                    title="Bạn có muốn xóa sản phẩm ?">
                                     <div class="d-flex justify-content-end" style="gap: 0.5rem">
 
-                                        Bạn có muốn thay đổi trạng thái {{ $item['active_name'] }}
+                                        Bạn có muốn xóa sản phẩm {{ $item['product_name'] }}
                                     </div>
 
                                 </x-modal>
-
-                                <x-modal action="{{ route('admin.user.delete', ['id' => $item['id']]) }}"
-                                    method="delete" id="{{ 'deleteUserModal' . $item['id'] }}"
-                                    title="Bạn có muốn xóa user này ?">
-                                    <div class="d-flex justify-content-end" style="gap: 0.5rem">
-
-                                        Bạn có muốn xóa user này {{ $item['email'] }}
-                                    </div>
-
-                                </x-modal>
-
 
 
                             </div>
@@ -67,6 +70,9 @@
 
                     @if (in_array($attr, $successName))
                         <td class="{{ $item[$attr] === 'Hoạt động' ? 'text-success' : 'text-danger' }}">
+                            {{ $item[$attr] }}</td>
+                    @elseif (in_array($attr, $productHightlight))
+                        <td class="{{ getStatusClass($item[$attr]) }}">
                             {{ $item[$attr] }}</td>
                     @else
                         <td>

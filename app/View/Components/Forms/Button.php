@@ -15,15 +15,17 @@ class Button extends Component
     public string $icon;
     public string $class;
     public string $type;
+    public string $id;
 
     public string $modalID;
 
-    public function __construct(string $icon = '', string $class = '', string $type = '', string $modalID = '')
+    public function __construct(string $icon = '', string $class = '', string $type = '', string $modalID = '', string $id = '')
     {
         $this->icon = $icon;
         $this->class = $class;
         $this->type = $type;
         $this->modalID = $modalID;
+        $this->id = $id;
     }
 
     /**

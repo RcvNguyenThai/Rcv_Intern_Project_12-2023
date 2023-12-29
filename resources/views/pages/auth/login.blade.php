@@ -67,6 +67,9 @@
                         <!-- /.col -->
                     </div>
                 </form>
+                @if (session('login_error'))
+                    <p class="login-box-msg text-danger mt-1">{{ session('login_error') }}</p>
+                @endif
 
                 <div class="social-auth-links text-center mt-2 mb-3">
                     <a href="#" class="btn btn-block btn-primary">

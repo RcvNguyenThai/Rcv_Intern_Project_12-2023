@@ -36,6 +36,10 @@ class UserController extends Controller
         // iPerPage
         $perPage = $request->input('perPage', 5);
 
+        if ($perPage >= 50) {
+            $perPage = 50;
+        }
+
         $nameParam = $request->input('name');
         $emailParam = $request->input('email');
         $groupParam = $request->input('group');
@@ -60,7 +64,7 @@ class UserController extends Controller
         // other ways to do this
         // $users->appends(['perPage' => $request->perPage]);
 
-        return view('pages.users.user', compact("users", "perPage", 'arrGroupTransform', 'nameParam', 'emailParam', 'strQuery'));
+        return view('pages.users.index', compact("users", "perPage", 'arrGroupTransform', 'nameParam', 'emailParam', 'strQuery'));
     }
 
 
@@ -161,7 +165,7 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id): RedirectResponse
     {
-        User::deleteUser($id);
+        User::deleteUser((string) $id);
         return redirect()->route("admin.user.get")->with("delete", "Delete  user succesfully!");
 
     }
@@ -176,7 +180,7 @@ class UserController extends Controller
      * 27/12/2023
      * version:1
      */
-    private function _transformUser(User $users): void
+    private function _transformUser($users): void
     {
         $users->map(function ($user) {
             $user->group_name = $user->group->name; // append the group name attribute
@@ -193,7 +197,7 @@ class UserController extends Controller
      * 27/12/2023
      * version:1
      */
-    private function _transformGroup(Group $groups): array
+    private function _transformGroup($groups): array
     {
 
         $collection = collect($groups);

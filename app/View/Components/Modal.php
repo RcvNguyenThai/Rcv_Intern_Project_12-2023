@@ -16,12 +16,14 @@ class Modal extends Component
     public string $action = "";
     public string $method = "";
     public string $id = "";
-    public function __construct(string $title = "", string $action = '', string $method = '', string $id = '')  
+    public bool $isAjax = false;
+    public function __construct(string $title = "", string $action = '', string $method = '', string $id = '', $isAjax = false)
     {
         $this->title = $title;
         $this->action = $action;
         $this->method = $method;
         $this->id = $id;
+        $this->isAjax = $isAjax;
 
     }
 

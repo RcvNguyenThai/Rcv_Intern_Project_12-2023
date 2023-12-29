@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Group;
+use App\Models\Image;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,9 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Group::factory(10)->create();
+        // Group::factory(10)->create();
 
-        \App\Models\User::factory(150)->create();
+        // User::factory(150)->create();
+
+        Product::factory()->count(150)->create();
+
+        Image::factory()->count(150)->create();
 
     }
 }

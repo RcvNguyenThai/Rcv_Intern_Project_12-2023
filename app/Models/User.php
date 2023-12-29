@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
-use App\Http\Requests\LoginRequest;
 use App\Models\Group;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\AddNewUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -29,6 +32,8 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     *  * 22/12/2023
+     * version:1
      */
 
     protected $table = "mst_users";
@@ -49,6 +54,8 @@ class User extends Authenticatable
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
+     *  * 22/12/2023
+     * version:1
      */
     protected $hidden = [
         'password',
@@ -59,6 +66,8 @@ class User extends Authenticatable
      * The attributes that should be cast.
      *
      * @var array<string, string>
+     *  * 22/12/2023
+     * version:1
      */
     protected $casts = [
         'verify_email' => 'datetime',
@@ -66,10 +75,31 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function group()
+    /**
+     * A define method for user belong to just one group.
+     *
+     * @param datatype $paramname description
+     * @return BelongsTo
+     *  22/12/2023
+     * version:1
+     */
+    public function group(): BelongsTo
     {
 
         return $this->belongsTo(Group::class);
+    }
+
+    /**
+     * A function that returns a HasMany relationship for the "products" model.
+     *
+     * @return HasMany The HasMany relationship for the "products" model.
+     *  27/12/2023
+     * version:1
+     */
+    public function products(): HasMany
+    {
+
+        return $this->hasMany(Product::class);
     }
 
     //methods for auth controller
@@ -302,6 +332,6 @@ class User extends Authenticatable
      */
     public static function deleteUser(string $id): void
     {
-        self::where('id', $id)->delete();
+        self::where('id', $id)->update(['is_delete' => 1]);
     }
 }

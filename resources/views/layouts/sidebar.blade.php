@@ -78,7 +78,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="pages/forms/advanced.html" class="nav-link">
+                            <a href="{{ route('admin.product.get') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Product Mangement</p>
                             </a>
