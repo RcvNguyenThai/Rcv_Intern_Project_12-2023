@@ -20,16 +20,16 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
-        @include('layouts.navbar')
+        @include('admin::layouts.navbar')
         <!-- Left side column. contains the logo and sidebar -->
-        @include('layouts.sidebar')
+        @include('admin::layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @yield('content')
         </div>
 
-        @include('layouts.footer')
+        @include('admin::layouts.footer')
     </div>
 
     <!-- jQuery -->
